@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CaseManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header ("Support Case Creation")]
+    [SerializeField] private Button createSupportCase;
+    [SerializeField] private Button submitSupportCase;
+    
+    [SerializeField] private GameObject startScreenPanel;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
         
     }
