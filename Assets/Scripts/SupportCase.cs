@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class SupportCase
 {
     public string Summary;
@@ -8,12 +10,10 @@ public class SupportCase
         High=1,
         Urgent=2
     }
-
-    struct PersonalData
-    {
-        public string FirstName;
-        public string LastName;
-        public string EmailAddress;
-    }
+    public Priority CasePriority;
+    public string FirstName;
+    public string LastName;
+    public string EmailAddress;
+    
     
 }
