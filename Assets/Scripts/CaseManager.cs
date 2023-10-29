@@ -45,7 +45,7 @@ public class CaseManager : MonoBehaviour
 
     public void SelectCasePriority ()
     {
-        newSupportCase.CasePriority = (SupportCase.Priority)casePriority.value;
+        if (casePriority != null) newSupportCase.CasePriority = (SupportCase.Priority)casePriority.value;
     }
 
     public void SubmitCase()
@@ -61,14 +61,14 @@ public class CaseManager : MonoBehaviour
 
         openCases.Add(newSupportCase);
 
-        Debug.Log($"List of support cases: " +
-            $"{newSupportCase.FirstName}" +
-            $"{newSupportCase.LastName} " +
-            $"{newSupportCase.EmailAddress} " +
-            $"{newSupportCase.Summary} " +
-            $"{newSupportCase.Description} " +
-            $"{newSupportCase.CasePriority} ");
+        HidePanel(newCasePanel);
 
+    }
+
+    public void DebugOpenCases()
+    {
+
+        Debug.Log($"Open cases: {openCases}");
     }
 
 
