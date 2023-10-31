@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 using TMPro;
 
 public class CaseManager : MonoBehaviour
@@ -40,11 +38,6 @@ public class CaseManager : MonoBehaviour
 
     public List<SupportCase> openCases = new List<SupportCase>();
     public List<SupportCase> closedCases = new List<SupportCase>();
-
-    private void Start()
-    {
-           
-    }
 
     public void DebugTest()
     {
@@ -107,8 +100,6 @@ public class CaseManager : MonoBehaviour
                 openCase.SetCaseDateTime(dateTime);
 
                 Button viewCaseButton = openCase.GetViewCaseButton();
-                //viewCaseButton.onClick.AddListener(delegate { DisplayPanel(viewCasePanel); });
-                //viewCaseButton.onClick.AddListener(delegate { LoadCaseData(openCase.GetCaseId()); });
 
                 viewCaseButton.onClick.AddListener(() => {
                     DisplayPanel(viewCasePanel);

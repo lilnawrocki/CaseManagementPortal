@@ -18,8 +18,6 @@ public class OpenCase : MonoBehaviour
     private string _caseSummary;
     private string _dateTime;
 
-    private CaseManager caseManager;
-
     public void SetCaseId(int caseId)
     {
         _caseId = caseId;

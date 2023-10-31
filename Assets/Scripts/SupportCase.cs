@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class SupportCase
 {
     public int caseId;
