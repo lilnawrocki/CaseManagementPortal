@@ -22,7 +22,8 @@ public class CaseManager : MonoBehaviour
 
     [SerializeField] private TMP_Dropdown casePriorityTMP;
 
-    [Header ("Preview Support Case")]
+    [Header("Preview Support Case")]
+    [SerializeField] private GameObject viewCasePanel;
     [SerializeField] private TMP_InputField previewCaseSummaryTMP;
     [SerializeField] private TMP_InputField previewCaseDescriptionTMP;
     [SerializeField] private TMP_InputField previewFirstNameTMP;
@@ -34,13 +35,21 @@ public class CaseManager : MonoBehaviour
     [SerializeField] private GameObject detailsCasePanelPrefab;
     [SerializeField] private GameObject instantiateContentParent;
 
+    [Header("Testing")]
+    [SerializeField] private Button testButton;
+
     public List<SupportCase> openCases = new List<SupportCase>();
     public List<SupportCase> closedCases = new List<SupportCase>();
 
-    private void Awake()
+    private void Start()
     {
-        //if (casePriority != null)
-        //    casePriority.onValueChanged.AddListener(delegate { SelectCasePriority(casePriority, newSupportCase); });
+           
+    }
+
+    public void DebugTest()
+    {
+        Debug.Log("It works!");
+        DisplayPanel(viewCasePanel);
     }
 
     public void DisplayPanel(GameObject panel)
@@ -68,7 +77,7 @@ public class CaseManager : MonoBehaviour
 
         Debug.Log($"{System.DateTime.Now}");
 
-        addCaseDetailsPanel();
+        initializeCaseDetails(addCaseDetailsPanel(), openCases.Count - 1, openCases[openCases.Count - 1].summary, openCases[openCases.Count - 1].dateTime);
 
     }
 
@@ -78,9 +87,35 @@ public class CaseManager : MonoBehaviour
             tMP_InputField.text.Equals("");
     }
 
-    private void addCaseDetailsPanel()
+    private GameObject addCaseDetailsPanel()
     {
         GameObject newCaseDetailsPanel = Instantiate(detailsCasePanelPrefab, instantiateContentParent.transform);
+        return newCaseDetailsPanel;
+
+    }
+
+    private void initializeCaseDetails(GameObject caseDetailPanel, int caseId, string caseSummary, string dateTime)
+    {
+        if (caseDetailPanel != null)
+        {
+            if (caseDetailPanel.GetComponent<OpenCase>() != null)
+            {
+                OpenCase openCase = caseDetailPanel.GetComponent<OpenCase>();
+
+                openCase.SetCaseId(caseId);
+                openCase.SetCaseSummary(caseSummary);
+                openCase.SetCaseDateTime(dateTime);
+
+                Button viewCaseButton = openCase.GetViewCaseButton();
+                //viewCaseButton.onClick.AddListener(delegate { DisplayPanel(viewCasePanel); });
+                //viewCaseButton.onClick.AddListener(delegate { LoadCaseData(openCase.GetCaseId()); });
+
+                viewCaseButton.onClick.AddListener(() => {
+                    DisplayPanel(viewCasePanel);
+                    LoadCaseData(openCase.GetCaseId());
+                });
+            }
+        }
     }
 
     public void LoadCaseData(int caseId)
@@ -98,6 +133,5 @@ public class CaseManager : MonoBehaviour
 
             
     }
-
 
 }

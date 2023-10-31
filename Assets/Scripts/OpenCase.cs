@@ -41,8 +41,13 @@ public class OpenCase : MonoBehaviour
             detailsCaseDateTimeTMP.text = dateTime;
     }
 
-    private void Awake()
+    public Button GetViewCaseButton()
     {
-        
+        return viewCaseButton;
+    }
+
+    public int GetCaseId()
+    {
+        return _caseId;
     }
 }
