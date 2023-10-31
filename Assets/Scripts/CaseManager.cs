@@ -14,15 +14,25 @@ public class CaseManager : MonoBehaviour
     [SerializeField] private GameObject startScreenPanel;
     [SerializeField] private GameObject newCasePanel;
 
-    [SerializeField] private TMP_InputField caseSummary;
-    [SerializeField] private TMP_InputField caseDescription;
-    [SerializeField] private TMP_InputField firstName;
-    [SerializeField] private TMP_InputField lastName;
-    [SerializeField] private TMP_InputField emailAddress;
+    [SerializeField] private TMP_InputField caseSummaryTMP;
+    [SerializeField] private TMP_InputField caseDescriptionTMP;
+    [SerializeField] private TMP_InputField firstNameTMP;
+    [SerializeField] private TMP_InputField lastNameTMP;
+    [SerializeField] private TMP_InputField emailAddressTMP;
 
-    [SerializeField] private TMP_Dropdown casePriority;
+    [SerializeField] private TMP_Dropdown casePriorityTMP;
 
-    private SupportCase newSupportCase = new SupportCase();
+    [Header ("Preview Support Case")]
+    [SerializeField] private TMP_InputField previewCaseSummaryTMP;
+    [SerializeField] private TMP_InputField previewCaseDescriptionTMP;
+    [SerializeField] private TMP_InputField previewFirstNameTMP;
+    [SerializeField] private TMP_InputField previewLastNameTMP;
+    [SerializeField] private TMP_InputField previewEmailAddressTMP;
+    [SerializeField] private TMP_InputField previewcasePriorityTMP;
+
+    [Header("Instantiate")]
+    [SerializeField] private GameObject detailsCasePanelPrefab;
+    [SerializeField] private GameObject instantiateContentParent;
 
     public List<SupportCase> openCases = new List<SupportCase>();
     public List<SupportCase> closedCases = new List<SupportCase>();
@@ -43,32 +53,50 @@ public class CaseManager : MonoBehaviour
         if (panel != null) panel.SetActive(false);
     }
 
-    public void SelectCasePriority ()
-    {
-        if (casePriority != null) newSupportCase.CasePriority = (SupportCase.Priority)casePriority.value;
-    }
-
     public void SubmitCase()
     {
 
-        if (firstName != null) newSupportCase.FirstName = firstName.text;
-        if (lastName != null) newSupportCase.LastName = lastName.text;
-        if (emailAddress != null) newSupportCase.EmailAddress = emailAddress.text;
-        if (caseSummary != null) newSupportCase.Summary = caseSummary.text;
-        if (caseDescription != null) newSupportCase.Description = caseDescription.text;
-        //if (casePriority != null) newSupportCase.CasePriority = (SupportCase.Priority)casePriority.value;
+        if (firstNameTMP != null && lastNameTMP != null && emailAddressTMP != null && caseSummaryTMP != null && caseDescriptionTMP != null)
+        {
+            SupportCase newSupportCase = new SupportCase(openCases.Count, caseSummaryTMP.text, caseDescriptionTMP.text,
+                (SupportCase.priority)casePriorityTMP.value, firstNameTMP.text, lastNameTMP.text, emailAddressTMP.text, System.DateTime.Now.ToString());
 
-
-        openCases.Add(newSupportCase);
+            openCases.Add(newSupportCase);
+        }  
 
         HidePanel(newCasePanel);
 
+        Debug.Log($"{System.DateTime.Now}");
+
+        addCaseDetailsPanel();
+
     }
 
-    public void DebugOpenCases()
+    private void clearInputField(TMP_InputField tMP_InputField)
     {
+        if (tMP_InputField != null)
+            tMP_InputField.text.Equals("");
+    }
 
-        Debug.Log($"Open cases: {openCases}");
+    private void addCaseDetailsPanel()
+    {
+        GameObject newCaseDetailsPanel = Instantiate(detailsCasePanelPrefab, instantiateContentParent.transform);
+    }
+
+    public void LoadCaseData(int caseId)
+    {
+        if (previewFirstNameTMP != null && previewLastNameTMP != null && previewEmailAddressTMP != null &&
+            previewCaseSummaryTMP != null && previewCaseDescriptionTMP != null && previewcasePriorityTMP != null)
+        {
+            previewFirstNameTMP.text = openCases[caseId].firstName;
+            previewLastNameTMP.text = openCases[caseId].lastName;
+            previewEmailAddressTMP.text = openCases[caseId].emailAddress;
+            previewCaseSummaryTMP.text = openCases[caseId].summary;
+            previewCaseDescriptionTMP.text = openCases[caseId].description;
+            previewcasePriorityTMP.text = openCases[caseId].casePriority.ToString();
+        }
+
+            
     }
 
 
